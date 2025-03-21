@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp_secao1/questao.dart';
+import 'package:quizapp_secao1/resposta.dart';
 
 void main() {
   runApp(PerguntaApp());
 }
 
-class PerguntaApp extends StatelessWidget {
+class PerguntaApp extends StatefulWidget {
   const PerguntaApp({super.key});
 
+  @override
+  State<PerguntaApp> createState() => _PerguntaAppState();
+}
+
+class _PerguntaAppState extends State<PerguntaApp> {
+
+  var _perguntaSelecionada = 0;
+
+  void _responder(){
+    setState(() {
+      _perguntaSelecionada += 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     //Lista de Perguntas
-
-    var perguntaSelecionada = 0;
 
     final List<String> perguntas = [
       'Qual é a sua cor favorita?',
@@ -20,10 +33,7 @@ class PerguntaApp extends StatelessWidget {
       'Qual é o seu nome?'
     ];
 
-    void responder(){
-      perguntaSelecionada++;
-      print(perguntaSelecionada);
-    }
+
 
     return  MaterialApp(
         home: Scaffold(
@@ -32,20 +42,11 @@ class PerguntaApp extends StatelessWidget {
           ),
           body: Column(
             children: [
-              Text(perguntas[perguntaSelecionada]),
-              ElevatedButton(
-                  onPressed: responder,
-                  child: Text('Resposta 1')
+              Questao(texto: perguntas[_perguntaSelecionada],
               ),
-              ElevatedButton(
-                  onPressed: responder,
-                  child: Text('Resposta 2')
-              ),
-              ElevatedButton(
-                  onPressed: responder,
-                  child: Text('Resposta 3')
-              ),
-
+              Resposta(texto: 'Resposta 1', quandoSelecionado: _responder),
+              Resposta(texto: 'Resposta 2', quandoSelecionado: _responder),
+              Resposta(texto: 'Resposta 3', quandoSelecionado: _responder),
             ],
           ),
       )
