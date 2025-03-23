@@ -14,10 +14,9 @@ class PerguntaApp extends StatefulWidget {
 }
 
 class _PerguntaAppState extends State<PerguntaApp> {
-
   var _perguntaSelecionada = 0;
 
-  void _responder(){
+  void _responder() {
     setState(() {
       _perguntaSelecionada += 1;
     });
@@ -27,29 +26,35 @@ class _PerguntaAppState extends State<PerguntaApp> {
   Widget build(BuildContext context) {
     //Lista de Perguntas
 
-    final List<String> perguntas = [
-      'Qual é a sua cor favorita?',
-      'Qual é o seu animal favorito?',
-      'Qual é o seu nome?'
+    final List<Map<String, Object>> perguntas = [
+      {
+        'texto': 'Qual é a sua cor favorita?',
+        'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco'],
+      },
+      {
+        'texto': 'Qual é o seu animal favorito?',
+        'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+      },
+      {
+        'texto': 'Qual é o seu instrutor favorito?',
+        'respostas': ['Maria', 'João', 'Leonardo', 'Pedro'],
+      },
     ];
 
+    //Logica das Respostas
 
+    List<String> respostas = perguntas[_perguntaSelecionada].cast()['respostas'];
 
-    return  MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text('Quiz App!',),
-          ),
-          body: Column(
-            children: [
-              Questao(texto: perguntas[_perguntaSelecionada],
-              ),
-              Resposta(texto: 'Resposta 1', quandoSelecionado: _responder),
-              Resposta(texto: 'Resposta 2', quandoSelecionado: _responder),
-              Resposta(texto: 'Resposta 3', quandoSelecionado: _responder),
-            ],
-          ),
-      )
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Quiz App!')),
+        body: Column(
+          children: [
+            Questao(texto: perguntas[_perguntaSelecionada]['texto'].toString()),
+            ...respostas.map((t) => Resposta(texto: t, quandoSelecionado: _responder)).toList(),
+          ],
+        ),
+      ),
     );
   }
 }
